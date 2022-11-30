@@ -8,7 +8,7 @@ var app = new Framework7({
 
   id: 'io.dustin.ward.runningthedistance', // App bundle ID
   // App store
-  store: store,
+  store: window.store,
   // App routes
   routes: routes,
 

@@ -1,28 +1,30 @@
-
 var lat;
 var long;
 var geoOpts = {
-    enableHighAccuracy: true
-}
+  enableHighAccuracy: true,
+};
 function onDeviceReady() {
-    // Cordova is now initialized. Have fun!
-    navigator.geolocation.getCurrentPosition(geoSuccess, geoError, geoOpts);
+  // Cordova is now initialized. Have fun!
+  navigator.geolocation.getCurrentPosition(geoSuccess, geoError, geoOpts);
 }
 function geoSuccess(position) {
-    console.log(position);
-    lat = position.coords.latitude
-    long = position.coords.longitude;
-    //$("#currentPos").append("<p>" + lat + ", " + long + "</p>")
+  // console.log(position);
+  lat = position.coords.latitude;
+  long = position.coords.longitude;
 }
 function geoError(message) {
-    alert(message.message)
+  alert(message.message);
 }
 
 document.addEventListener("deviceready", onDeviceReady, false);
 function onDeviceReady() {
   // Cordova is now initialized. Have fun!
 
-  var watchID = navigator.geolocation.watchPosition(geoSuccess, geoError, geoOpts);
+  var watchID = navigator.geolocation.watchPosition(
+    geoSuccess,
+    geoError,
+    geoOpts
+  );
 
   // Camera Options
   var options = {
@@ -44,7 +46,7 @@ function onDeviceReady() {
         var img = new Image();
         img.src = imgURL;
         //$("#imageContainer").append(img);
-        console.log("Picture taken:", img.src, "at", lat,long);
+        console.log("Picture taken:", img.src, "at", lat, long);
       },
       onFail
     );
@@ -60,12 +62,29 @@ function onDeviceReady() {
 $(document).on("page:init", '.page[data-name="map"]', function () {
   //CREATE THE MAP
   var map = new google.maps.Map(document.getElementById("map"), {
-    zoom: 18,
+    zoom: 11,
     center: { lat: lat, lng: long },
   });
-  //ADD THE MARKER
-  var marker = new google.maps.Marker({
+
+  var yourMarker = new google.maps.Marker({
     position: { lat: lat, lng: long },
     map: map,
   });
+
+  var markers = [];
+  console.log("STORE", app.store.getters.photos);
+  app.store.getters.photos.value.map((photo) => {
+    let newMarker = new google.maps.Marker({
+      map: map,
+      title: photo.id,
+      position: photo.location,
+      icon: photo.url
+    });
+
+    newMarker.addListener("click", () => {
+          
+    })
+
+    markers = [...markers, newMarker];
+  })
 });
