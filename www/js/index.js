@@ -1,5 +1,7 @@
 var lat;
 var long;
+var map;
+var yourMarker
 var geoOpts = {
   enableHighAccuracy: true,
 };
@@ -11,6 +13,10 @@ function geoSuccess(position) {
   // console.log(position);
   lat = position.coords.latitude;
   long = position.coords.longitude;
+
+  coords = {lat: lat, lng: long};
+  if(map) map.setCenter(coords);
+  if(yourMarker) yourMarker.setPosition(coords);
 }
 function geoError(message) {
   alert(message.message);
@@ -28,7 +34,9 @@ function onDeviceReady() {
 
   // Camera Options
   var options = {
-    quality: 100,
+    quality: 50,
+    targetWidth: 50,
+    targetHeight: 50,
     destinationType: Camera.DestinationType.FILE_URI,
   };
 
@@ -42,11 +50,20 @@ function onDeviceReady() {
     resolveLocalFileSystemURL(
       imageData,
       function (fileEntry) {
-        var imgURL = fileEntry.toURL();
-        var img = new Image();
+        let imgURL = fileEntry.toURL();
+        let img = new Image();
         img.src = imgURL;
-        //$("#imageContainer").append(img);
         console.log("Picture taken:", img.src, "at", lat, long);
+        let uid = app.store.getters.genUid.value;
+        let photo = {
+          id: uid,
+          url: imgURL,
+          location: {
+            lat: lat,
+            lng: long
+          }
+        }
+        app.store.dispatch('addPhoto', photo);
       },
       onFail
     );
@@ -57,16 +74,17 @@ function onDeviceReady() {
     console.log("ERROR", message);
     alert("Error: Image not taken");
   }
+  
 }
 
 $(document).on("page:init", '.page[data-name="map"]', function () {
   //CREATE THE MAP
-  var map = new google.maps.Map(document.getElementById("map"), {
+  map = new google.maps.Map(document.getElementById("map"), {
     zoom: 11,
     center: { lat: lat, lng: long },
   });
 
-  var yourMarker = new google.maps.Marker({
+  yourMarker = new google.maps.Marker({
     position: { lat: lat, lng: long },
     map: map,
   });
@@ -76,7 +94,7 @@ $(document).on("page:init", '.page[data-name="map"]', function () {
   app.store.getters.photos.value.map((photo) => {
     let newMarker = new google.maps.Marker({
       map: map,
-      title: photo.id,
+      title: photo.id.toString(),
       position: photo.location,
       icon: photo.url
     });

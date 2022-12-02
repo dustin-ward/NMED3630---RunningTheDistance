@@ -19,22 +19,41 @@ window.store = Framework7.createStore({
       },
     ],
     home: {
-        location: {
-          lat: 49.6767,
-          lng: -112.8630,
-        },
-    }
+      location: {
+        lat: 49.6767,
+        lng: -112.863,
+      },
+    },
   },
   getters: {
     photos({ state }) {
       return state.photos;
     },
-    getPhoto({state},{id}) {
-      for(p in state.photos) {
-        if(p.id == id)
-          return p;
+    
+    getPhoto({ state }, { id }) {
+      for (p in state.photos) {
+        if (p.id == id) return p;
       }
-    }
+    },
+    
+    // Code snipped from article about generating unique ids in JavaScript
+    // https://learnersbucket.com/examples/javascript/unique-id-generator-in-javascript
+    genUid() {
+      let genRandDigits = () => {
+        return Math.floor((1 + Math.random()) * 0x10000)
+          .toString(16)
+          .substring(1);
+      };
+      return (
+        genRandDigits() +
+        "-" +
+        genRandDigits() +
+        "-" +
+        genRandDigits() +
+        "-" +
+        genRandDigits()
+      );
+    },
   },
   actions: {
     addPhoto({ state }, photo) {
