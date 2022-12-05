@@ -1,7 +1,7 @@
 var lat;
 var long;
 var map;
-var yourMarker
+var yourMarker;
 var geoOpts = {
   enableHighAccuracy: true,
 };
@@ -14,9 +14,9 @@ function geoSuccess(position) {
   lat = position.coords.latitude;
   long = position.coords.longitude;
 
-  coords = {lat: lat, lng: long};
-  if(map) map.setCenter(coords);
-  if(yourMarker) yourMarker.setPosition(coords);
+  coords = { lat: lat, lng: long };
+  // if (map) map.setCenter(coords);
+  if (yourMarker) yourMarker.setPosition(coords);
 }
 function geoError(message) {
   alert(message.message);
@@ -34,9 +34,7 @@ function onDeviceReady() {
 
   // Camera Options
   var options = {
-    quality: 50,
-    targetWidth: 50,
-    targetHeight: 50,
+    // quality: 80,
     destinationType: Camera.DestinationType.FILE_URI,
   };
 
@@ -60,10 +58,10 @@ function onDeviceReady() {
           url: imgURL,
           location: {
             lat: lat,
-            lng: long
-          }
-        }
-        app.store.dispatch('addPhoto', photo);
+            lng: long,
+          },
+        };
+        app.store.dispatch("addPhoto", photo);
       },
       onFail
     );
@@ -74,7 +72,8 @@ function onDeviceReady() {
     console.log("ERROR", message);
     alert("Error: Image not taken");
   }
-  
+
+  app.store.dispatch("calcPoints");
 }
 
 $(document).on("page:init", '.page[data-name="map"]', function () {
@@ -91,18 +90,26 @@ $(document).on("page:init", '.page[data-name="map"]', function () {
 
   var markers = [];
   console.log("STORE", app.store.getters.photos);
+  app.store.dispatch("calcPoints");
   app.store.getters.photos.value.map((photo) => {
+    let image = {
+      url: photo.url,
+      scaledSize: new google.maps.Size(50, 50),
+      origin: new google.maps.Point(0, 0),
+      anchor: new google.maps.Point(18, 50),
+    };
+
     let newMarker = new google.maps.Marker({
       map: map,
       title: photo.id.toString(),
       position: photo.location,
-      icon: photo.url
+      icon: image,
     });
 
     newMarker.addListener("click", () => {
-          
-    })
+      console.log("Marker clicked!");
+    });
 
     markers = [...markers, newMarker];
-  })
+  });
 });
