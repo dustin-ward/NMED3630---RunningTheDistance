@@ -14,11 +14,23 @@ $(document).on("page:init", '.page[data-name="map"]', function () {
   yourMarker = new google.maps.Marker({
     position: { lat: lat, lng: long },
     map: map,
+    label: {
+      text: "\ue412",
+      fontFamily: "Material Icons",
+      color: "#ffffff",
+      fontSize: "18px",
+    },
   });
 
   homeMarker = new google.maps.Marker({
     position: app.store.getters.getHome.value.location,
     map: map,
+    label: {
+      text: "\ue587",
+      fontFamily: "Material Icons",
+      color: "#ffffff",
+      fontSize: "18px",
+    },
   });
 
   // Camera Options

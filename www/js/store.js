@@ -3,15 +3,15 @@ window.store = Framework7.createStore({
     photos: [
       {
         id: "0",
-        url: "https://via.placeholder.com/1080x1920",
+        url: "https://images.pexels.com/photos/1405829/pexels-photo-1405829.jpeg",
         location: {
-          lat: 49.666,
+          lat: 49.657,
           lng: -112.865,
         },
       },
       {
         id: "1",
-        url: "https://via.placeholder.com/1080x1920",
+        url: "https://images.pexels.com/photos/1095796/pexels-photo-1095796.jpeg",
         location: {
           lat: 49.709,
           lng: -112.839,

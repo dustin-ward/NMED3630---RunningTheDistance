@@ -2,6 +2,7 @@ var lat;
 var long;
 var map;
 var yourMarker;
+var home;
 var geoOpts = {
   enableHighAccuracy: true,
 };
@@ -18,6 +19,9 @@ function geoSuccess(position) {
   coords = { lat: lat, lng: long };
   // if (map) map.setCenter(coords);
   if (yourMarker) yourMarker.setPosition(coords);
+
+  let distance = calcCrow(coords, home.location);
+  $("#curScore").html(`${Math.round(distance*1000)/1000}km`)
 }
 function geoError(message) {
   alert(message.message);
@@ -33,6 +37,7 @@ function onDeviceReady() {
     geoOpts
   );
 
+  home = app.store.getters.getHome.value;
   app.store.dispatch("calcUserScore");
 }
 

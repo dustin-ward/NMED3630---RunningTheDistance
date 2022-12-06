@@ -1,19 +1,26 @@
 <div class="page" data-name="map">
-    <div class="navbar">
-        <div class="navbar-bg"></div>
-        <div class="navbar-inner sliding">
-            <div class="left">
-                <a href="#" class="link back"><i class="icon icon-back"></i></a>
-            </div>
-            <div class="center">
-                Your Map
-            </div>
-            <div class="right">
-                <a href="#" id="takePhoto"><span class="material-icons"> photo_camera </span></a>
-            </div>
-        </div>
+  <div class="navbar">
+    <div class="navbar-bg"></div>
+    <div class="navbar-inner sliding">
+      <div class="left">
+        <a href="#" class="link back">
+          <span class="material-icons outerglow-text"> arrow_back </span>
+        </a>
+      </div>
+      <div class="center">Your Map</div>
+      <div class="right cur-score outerglow-text">
+        <span class="material-icons" style="padding-right: 10px;"> home </span>
+        <span><p id="curScore">-.----km</p></span>
+      </div>
     </div>
-    <div class="page-content">
-        <div id="map"></div>
-    </div>
+  </div>
+  <div class="fab fab-left-bottom outerglow-circle">
+    <a href="#" id="takePhoto">
+      <i class="icon f7-icons if-not-md">plus</i>
+      <i class="icon material-icons md-only">photo_camera</i>
+    </a>
+  </div>
+  <div class="page-content">
+    <div id="map"></div>
+  </div>
 </div>

@@ -10,7 +10,10 @@ $(document).on("page:afterin", '.page[data-name="photos"]', function () {
         $("#photoGalleryContainer").append(
         `<div class="card">
             <div class="card-header">
-                <h2>Points: ${Math.round(photo.score*1000)/1000}</h2>
+                <h2>
+                    <div style="display: inline;">Points: </div>
+                    <div style="display: inline; color: var(--f7-theme-color);" class="outerglow-text">${Math.round(photo.score*1000)/1000}km</di>
+                </h2>
             </div>
             <div class="card-content">
                 <img src=${photo.url}>
