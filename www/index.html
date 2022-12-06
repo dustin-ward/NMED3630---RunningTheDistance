@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html class="theme-dark">
   <head>
     <meta charset="utf-8" />
     <!--
@@ -10,15 +10,11 @@
     * Disables use of inline scripts in order to mitigate risk of XSS vulnerabilities. To change this:
       * Enable inline JS: add 'unsafe-inline' to default-src
   -->
-    <!-- <meta
-      http-equiv="Content-Security-Policy"
-      content="default-src * 'self' 'unsafe-inline' 'unsafe-eval' data: content:"
-    /> -->
     <meta
       http-equiv="Content-Security-Policy"
       content="default-src 'self' data: https://ssl.gstatic.com 'unsafe-eval'; 
 style-src 'self' 'unsafe-inline' fonts.googleapis.com; media-src *; font-src 'self' data: fonts.gstatic.com;  
-img-src 'self' data: content: maps.gstatic.com *.googleapis.com *.ggpht.com via.placeholder.com; 
+img-src 'self' data: content: maps.gstatic.com *.googleapis.com *.ggpht.com via.placeholder.com images.pexels.com; 
 script-src 'self' maps.googleapis.com 'unsafe-inline';
 connect-src 'self' https://*.googleapis.com *.google.com https://*.gstatic.com data: blob:;"
     />
@@ -31,13 +27,30 @@ connect-src 'self' https://*.googleapis.com *.google.com https://*.gstatic.com d
     <meta name="format-detection" content="telephone=no" />
     <meta name="msapplication-tap-highlight" content="no" />
     <title>Running The Distance</title>
-
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+    />
     <link rel="stylesheet" href="framework7/framework7-bundle.min.css" />
     <link rel="stylesheet" href="css/icons.css" />
     <link rel="stylesheet" href="css/app.css" />
   </head>
   <body>
     <div id="app" class="dark">
+      <!-- Left panel, with cover effect -->
+      <div
+        class="panel panel-left panel-left-1 panel-cover panel-init theme-dark"
+      >
+        <div class="list links-list">
+          <ul>
+            <li>
+              <a class="link panel-close" href="/photos/">Photo Gallery</a>
+            </li>
+            <li><a class="link panel-close" href="/about/">About</a></li>
+          </ul>
+        </div>
+      </div>
+
       <!-- Your main view, should have "view-main" class -->
       <div class="view view-main view-init safe-areas">
         <div class="page" data-name="home">
@@ -45,23 +58,47 @@ connect-src 'self' https://*.googleapis.com *.google.com https://*.gstatic.com d
           <div class="navbar">
             <div class="navbar-bg"></div>
             <div class="navbar-inner sliding">
-              <div class="title">Running The Distance</div>
-            </div>
-          </div>
-          <!-- Toolbar-->
-          <div class="toolbar toolbar-bottom">
-            <div class="toolbar-inner">
-              <a href="#" class="link">Left Link</a>
-              <a href="/map/" class="link">Right Link</a>
+              <div class="left">
+                <a class="panel-open" href="#" data-panel=".panel-left-1"
+                  ><span class="material-icons"> menu </span></a
+                >
+              </div>
+              <div class="center">
+                <div class="title">Running The Distance</div>
+              </div>
+              <div class="right">
+                <a href="/map/" class="link"
+                  ><span class="material-icons"> map </span></a
+                >
+              </div>
             </div>
           </div>
           <!-- Scrollable page content-->
           <div class="page-content">
+            <div class="main-title">
+              <h1>Welcome to Running The Distance</h1>
+            </div>
+            <div class="main-image">
+              <img
+                src="https://images.pexels.com/photos/4324494/pexels-photo-4324494.jpeg"
+                class="main-element"
+              />
+            </div>
             <div class="block block-strong">
-              <p>
-                Here is your blank Framework7 app. Let's see what we have here.
-              </p>
-              <button id="takePhoto">TAKE PICTURE</button>
+              <h2>Check out your map!</h2>
+              <a href="/map/" class="link map-button"
+                ><button class="button button-large button-raised button-fill">
+                  Open Map
+                </button></a
+              >
+            </div>
+            <div class="block block-strong">
+              <h2>Your Score:</h2>
+              <h1 id="userScore">-.----km</h1>
+            </div>
+            <div class="block-title">Your Home:</div>
+            <div class="block block-strong">
+              <h4 id="userHome">--.---, --.---</h4>
             </div>
           </div>
         </div>
@@ -86,5 +123,8 @@ connect-src 'self' https://*.googleapis.com *.google.com https://*.gstatic.com d
       defer
     ></script>
     <script src="js/index.js"></script>
+    <script src="js/home.js"></script>
+    <script src="js/map.js"></script>
+    <script src="js/photoGallery.js"></script>
   </body>
 </html>

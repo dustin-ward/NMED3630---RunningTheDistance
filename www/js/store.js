@@ -24,16 +24,23 @@ window.store = Framework7.createStore({
         lng: -112.863,
       },
     },
+    userScore: 0.0
   },
   getters: {
     photos({ state }) {
       return state.photos;
     },
 
-    getPhoto({ state }, { id }) {
-      for (p in state.photos) {
-        if (p.id == id) return p;
-      }
+    getPhoto: (state) => (id) => {
+      return state.photos.find(photo => photo.id === id);
+    },
+
+    getUserScore({state}) {
+      return state.userScore;
+    },
+
+    getHome({state}) {
+      return state.home;
     },
 
     // Code snipped from article about generating unique ids in JavaScript
@@ -56,8 +63,9 @@ window.store = Framework7.createStore({
     },
   },
   actions: {
-    addPhoto({ state }, photo) {
+    addPhoto({ state, dispatch }, photo) {
       state.photos = [...state.photos, photo];
+      dispatch("calcUserScore");
     },
 
     calcPoints({ state }) {
@@ -65,6 +73,17 @@ window.store = Framework7.createStore({
         photo.score = calcCrow(state.home.location, photo.location);
       });
     },
+
+    calcUserScore({state, dispatch}) {
+      dispatch("calcPoints");
+      
+      let sum = 0.0;
+      state.photos.forEach(photo => {
+        sum += photo.score;
+      });
+
+      state.userScore = sum;
+    }
   },
 });
 

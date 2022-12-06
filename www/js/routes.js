@@ -8,4 +8,12 @@ var routes = [
     path: '/map/',
     url: './pages/map.html',
   },
+  {
+    path: '/photos/',
+    url: './pages/photos.html',
+  },
+  {
+    path: '/about/',
+    url: './pages/about.html',
+  }
 ];
